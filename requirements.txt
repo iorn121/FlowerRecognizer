@@ -1,0 +1,6 @@
+pandas
+opencv-python
+django
+torch
+torchvision
+torchaudio

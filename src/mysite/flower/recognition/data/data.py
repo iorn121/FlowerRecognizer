@@ -21,7 +21,7 @@ def output_dataset_path_list(img_path, num_class=17, ratio=0.9):
                 train_data_list.append([path, i])
             else:
                 valid_data_list.append([path, i])
-            print(f'label name: {name}, 'end='')
+            print(f'label name: {name}, ', end='')
             print(
                 f'train: {len(select_idx)}, validation: {len(data_list)-len(select_idx)}')
     return train_data_list, valid_data_list

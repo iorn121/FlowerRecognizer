@@ -1,5 +1,5 @@
 import torch.nn as nn
-from torchvision import models, transform
+from torchvision import models, transforms
 
 
 def set_parameter_requires_grad(model, feature_extracting):

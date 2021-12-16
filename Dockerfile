@@ -1,8 +1,9 @@
-FROM python:3.6
+FROM python:3.6-slim-buster
 USER root
 
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install locales
+RUN apt-get -y install libopencv-dev
 RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja

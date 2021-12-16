@@ -48,10 +48,10 @@ def main():
     optimizer_ft = optim.SGD(params_to_update, lr=0.001, momentum=0.9)
     criterion = nn.CrossEntropyLoss()
     train_model(model_ft, train_dataloader, valid_dataloader, criterion,
-                optimizer_ft, device, num_epochs=num_epoch, num_vals=len(valid_data))
+                optimizer_ft, device, num_epochs=num_epoch, num_val=len(valid_data))
 
 
-def train_model(model, train_dataloader, valid_dataloader, criterion, device, num_epochs=25, num_val=0):
+def train_model(model, train_dataloader, valid_dataloader, criterion, optimizer, device, num_epochs=25, num_val=0):
     for epoch in range(1, num_epochs+1):
         print(f'Epoch {epoch}/{num_epochs}')
         print('-'*10)

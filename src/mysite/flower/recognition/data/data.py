@@ -9,22 +9,23 @@ def output_dataset_path_list(img_path, num_class=17, ratio=0.9):
     label_name = list(open('data/label.txt'))
     for i in range(len(label_name)):
         label_name[i] = label_name[i].replace('\n', '')
-    train_data_list = []
-    valid_data_list = []
+    tr_data_list = []
+    val_data_list = []
     for i, name in enumerate(label_name):
-        data_list = glob(f'data/images/{name}/*.jpg')
+        data_list = glob('data/images/{}/*.jpg'.format(name))
         select_idx = np.arange(len(data_list))
         select_idx = np.random.choice(select_idx, int(
             len(data_list)*ratio), replace=False)
-        for j, path in enumerate(data_list):
-            if j in select_idx:
-                train_data_list.append([path, i])
+        for k, path in enumerate(data_list):
+            if k in select_idx:
+                tr_data_list.append([path, i])
             else:
-                valid_data_list.append([path, i])
-            print(f'label name: {name}, ', end='')
-            print(
-                f'train: {len(select_idx)}, validation: {len(data_list)-len(select_idx)}')
-    return train_data_list, valid_data_list
+                val_data_list.append([path, i])
+        print('label name: {},   '.format(name), end='')
+        print('train: {}, validation: {}'.format(
+            len(select_idx), len(data_list)-len(select_idx)))
+
+    return tr_data_list, val_data_list
 
 
 class MyDataset():

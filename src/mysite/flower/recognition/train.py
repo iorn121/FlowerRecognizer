@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from torch.optim import optimizer
 import torchvision
 from torchvision import datasets, models, transforms
 
@@ -15,25 +14,27 @@ def main():
     batch_size = 32
     num_epoch = 20
 
+    #transform = transforms.Compose([transforms.ToTensor()])
     transform = transforms.Compose(
-        [transforms.ToTensor(), transforms.Normalize(0.5, 0.5, 0.5), (0.5, 0.5, 0.5)])
-    img_path = "data/images"
+        [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    train_list, valid_list = output_dataset_path_list(img_path, 17, 0.9)
+    img_path = 'data/images'
+
+    tr_list, val_list = output_dataset_path_list(img_path, 17, 0.9)
 
     print('Setting up data...')
-    train_data = MyDataset(train_list, transform)
-    valid_data = MyDataset(valid_list, transform)
-    train_dataloader = torch.utils.data.DataLoader(
-        train_data, batch_size=batch_size, shuffle=True)
-    valid_dataloader = torch.utils.data.DataLoader(
-        valid_data, batch_size=len(valid_data), shuffle=True)
+    tr_data = MyDataset(tr_list, transform)
+    val_data = MyDataset(val_list, transform)
+    tr_dataloader = torch.utils.data.DataLoader(
+        tr_data, batch_size=batch_size, shuffle=True, )
+    val_dataloader = torch.utils.data.DataLoader(
+        val_data, batch_size=len(val_data), shuffle=True, )
 
     print('Create model...')
     feature_extract = True
     model_ft = initialize_model(num_classes, feature_extract)
 
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model_ft = model_ft.to(device)
 
     params_to_update = model_ft.parameters()
@@ -47,22 +48,22 @@ def main():
     print('Start training...')
     optimizer_ft = optim.SGD(params_to_update, lr=0.001, momentum=0.9)
     criterion = nn.CrossEntropyLoss()
-    train_model(model_ft, train_dataloader, valid_dataloader, criterion,
-                optimizer_ft, device, num_epochs=num_epoch, num_val=len(valid_data))
+    train_model(model_ft, tr_dataloader, val_dataloader, criterion,
+                optimizer_ft, device, num_epochs=num_epoch, num_val=len(val_data))
 
 
-def train_model(model, train_dataloader, valid_dataloader, criterion, optimizer, device, num_epochs=25, num_val=0):
+def train_model(model, tr_dataloader, val_dataloader, criterion, optimizer, device, num_epochs=25, num_val=0):
     for epoch in range(1, num_epochs+1):
-        print(f'Epoch {epoch}/{num_epochs}')
+        print('Epoch {}/{}'.format(epoch, num_epochs))
         print('-'*10)
 
         for phase in ['train', 'eval']:
             if phase == 'train':
                 model.train()
-                dataloaders = train_dataloader
+                dataloaders = tr_dataloader
             else:
                 model.eval()
-                dataloaders = valid_dataloader
+                dataloaders = val_dataloader
 
             running_loss = 0.0
             running_corrects = 0

@@ -12,7 +12,7 @@ from data.data import output_dataset_path_list, MyDataset
 def main():
     num_classes = 17
     batch_size = 32
-    num_epoch = 20
+    num_epoch = 50
 
     #transform = transforms.Compose([transforms.ToTensor()])
     transform = transforms.Compose(

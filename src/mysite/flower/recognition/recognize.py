@@ -12,7 +12,7 @@ def softmax(x):
 
 
 def main(img_path):
-    model_path = 'flower/recognition/save_model/model_20.pth'
+    model_path = 'flower/recognition/save_model/model_50.pth'
     label = ['Tulip',
              'Snowdrop',
              'LilyValley',
